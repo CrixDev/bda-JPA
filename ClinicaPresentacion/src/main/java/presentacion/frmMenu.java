@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import negocio.CatalogoNegocio;
+import negocio.ICatalogoNegocio;
 import persistencia.ConexionBD;
 import persistencia.IConexionBD;
 
@@ -45,10 +47,19 @@ public class frmMenu extends JFrame {
         JButton btnResultados = new JButton("3. Ingreso de Resultados");
         JButton btnReporte = new JButton("4. Ver Reporte");
 
-        btnCatalogo.addActionListener(e -> new frmCatalogo(conexion).setVisible(true));
+        // ── AQUÍ ESTÁ EL CAMBIO CLAVE ────────────────────────────────────────
+        btnCatalogo.addActionListener(e -> {
+            // 1. Instanciamos la capa de negocio usando la conexión del menú
+            ICatalogoNegocio catalogoNegocio = new CatalogoNegocio(this.conexion);
+            
+            // 2. Abrimos la nueva pantalla pasándole el negocio como pide su constructor
+            new CatalogoAnalisis(catalogoNegocio).setVisible(true);
+        });
+        // ────────────────────────────────────────────────────────────────────
+
         btnSolicitud.addActionListener(e -> abrirSolicitud());
-        btnResultados.addActionListener(e -> new frmResultados(conexion).setVisible(true));
-        btnReporte.addActionListener(e -> new frmReporte(conexion).setVisible(true));
+        //btnResultados.addActionListener(e -> new frmResultados(conexion).setVisible(true));
+        //btnReporte.addActionListener(e -> new frmReporte(conexion).setVisible(true));
 
         panel.add(btnCatalogo);
         panel.add(btnSolicitud);
