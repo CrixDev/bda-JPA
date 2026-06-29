@@ -68,13 +68,15 @@ public class ReporteNegocio implements IReporteNegocio {
     private List<ReporteResultadoDTO> construirReporte(PruebaEntidad prueba) throws PersistenciaException {
         ClienteEntidad cliente = prueba.getCliente();
         Integer edadCliente = calcularEdad(cliente != null ? cliente.getFechaNacimiento() : null);
+        String sexoCliente = cliente != null ? cliente.getSexo() : null;
+        String nombreDoctor = prueba.getDoctor() != null ? prueba.getDoctor().getNombre() : null;
 
         List<ReporteResultadoDTO> reporte = new ArrayList<>();
         for (ResultadoEntidad resultado : resultadoDAO.buscarPorPrueba(prueba.getId())) {
             ParametroEntidad parametro = resultado.getParametro();
             boolean fueraDeRango = evaluarFueraDeRango(resultado.getValor(), parametro, edadCliente);
 
-            reporte.add(new ReporteResultadoDTO(
+            ReporteResultadoDTO renglon = new ReporteResultadoDTO(
                     prueba.getFolio(),
                     prueba.getFechaHora(),
                     cliente != null ? cliente.getNombre() : "",
@@ -83,7 +85,11 @@ public class ReporteNegocio implements IReporteNegocio {
                     parametro != null ? parametro.getUnidadMedida() : "",
                     parametro != null ? parametro.getRangoInicial() : null,
                     parametro != null ? parametro.getRangoFinal() : null,
-                    fueraDeRango));
+                    fueraDeRango);
+            renglon.setEdad(edadCliente);
+            renglon.setSexo(sexoCliente);
+            renglon.setNombreDoctor(nombreDoctor);
+            reporte.add(renglon);
         }
         return reporte;
     }

@@ -20,6 +20,10 @@ public class ReporteResultadoDTO {
     private Double rangoInicial;
     private Double rangoFinal;
     private boolean fueraDeRango;
+    // Datos de cabecera del informe (paciente y médico).
+    private Integer edad;
+    private String sexo;
+    private String nombreDoctor;
 
     public ReporteResultadoDTO() {
     }
@@ -107,6 +111,30 @@ public class ReporteResultadoDTO {
 
     public void setFueraDeRango(boolean fueraDeRango) {
         this.fueraDeRango = fueraDeRango;
+    }
+
+    public Integer getEdad() {
+        return edad;
+    }
+
+    public void setEdad(Integer edad) {
+        this.edad = edad;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getNombreDoctor() {
+        return nombreDoctor;
+    }
+
+    public void setNombreDoctor(String nombreDoctor) {
+        this.nombreDoctor = nombreDoctor;
     }
 
     /**
