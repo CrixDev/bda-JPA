@@ -8,7 +8,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
-        <exec.mainClass>presentacion.frmMenu</exec.mainClass>
+        <exec.mainClass>presentacion.frmPrincipal</exec.mainClass>
     </properties>
     <dependencies>
         <dependency>

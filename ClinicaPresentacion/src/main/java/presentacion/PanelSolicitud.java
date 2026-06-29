@@ -20,17 +20,16 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import negocio.CatalogoNegocio;
 import negocio.ClienteNegocio;
 import negocio.DoctorNegocio;
-import negocio.CatalogoNegocio;
-import negocio.IClienteNegocio;
 import negocio.ICatalogoNegocio;
+import negocio.IClienteNegocio;
 import negocio.IDoctorNegocio;
 import negocio.IPruebaNegocio;
 import negocio.NegocioException;
@@ -38,13 +37,11 @@ import negocio.PruebaNegocio;
 import persistencia.IConexionBD;
 
 /**
- * Módulo 2: recepción de pruebas. Permite registrar o seleccionar el cliente,
- * elegir doctor (o ninguno), seleccionar los análisis a realizar y generar la
- * orden con un folio único.
- *
- * @author Cristian Devora
+ * Panel del módulo "Solicitudes". Registra o selecciona el cliente, elige doctor
+ * (o ninguno), selecciona los análisis a realizar y genera la orden con un folio
+ * único.
  */
-public class frmSolicitud extends JFrame {
+public class PanelSolicitud extends JPanel implements Recargable {
 
     private final IClienteNegocio clienteNegocio;
     private final IDoctorNegocio doctorNegocio;
@@ -54,9 +51,8 @@ public class frmSolicitud extends JFrame {
     private JComboBox<ClienteEntidad> cboClientes;
     private JComboBox<Object> cboDoctores;
     private JPanel pnlAnalisis;
-    private List<JCheckBox> checksAnalisis;
+    private final List<JCheckBox> checksAnalisis;
 
-    // Campos para registrar cliente nuevo.
     private JTextField txtNombreCliente;
     private JTextField txtFechaNacimiento;
     private JComboBox<String> cboSexo;
@@ -64,7 +60,7 @@ public class frmSolicitud extends JFrame {
 
     private static final String SIN_DOCTOR = "Sin doctor";
 
-    public frmSolicitud(IConexionBD conexion) {
+    public PanelSolicitud(IConexionBD conexion) {
         this.clienteNegocio = new ClienteNegocio(conexion);
         this.doctorNegocio = new DoctorNegocio(conexion);
         this.catalogoNegocio = new CatalogoNegocio(conexion);
@@ -74,11 +70,13 @@ public class frmSolicitud extends JFrame {
         cargarDatos();
     }
 
+    @Override
+    public void recargar() {
+        cargarDatos();
+    }
+
     private void initComponents() {
-        setTitle("Nueva Solicitud");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(560, 640);
-        setLocationRelativeTo(null);
+        setLayout(new BorderLayout());
 
         JPanel principal = new JPanel();
         principal.setLayout(new BoxLayout(principal, BoxLayout.Y_AXIS));

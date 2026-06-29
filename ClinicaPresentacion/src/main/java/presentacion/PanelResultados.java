@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package presentacion;
 
 import dto.GuardarResultadoDTO;
@@ -12,7 +8,6 @@ import java.awt.GridLayout;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,22 +15,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import negocio.IResultadoNegocio;
 import negocio.IPruebaNegocio;
+import negocio.IResultadoNegocio;
 import negocio.NegocioException;
 import negocio.PruebaNegocio;
 import negocio.ResultadoNegocio;
-
 import persistencia.IConexionBD;
 
 /**
- * Módulo 3: Ingreso de resultados.
- * El laboratorista busca la prueba por folio y captura el valor
- * de cada parámetro.
- *
- * @author dylannvms
+ * Panel del módulo "Ingreso de resultados". El laboratorista busca la prueba por
+ * folio y captura el valor de cada parámetro.
  */
-public class frmResultados extends JFrame {
+public class PanelResultados extends JPanel implements Recargable {
 
     private final IResultadoNegocio resultadoNegocio;
     private final IPruebaNegocio pruebaNegocio;
@@ -52,19 +43,23 @@ public class frmResultados extends JFrame {
     private static final int COL_VALOR = 4;
     private static final int COL_OBSERVACION = 5;
 
-    public frmResultados(IConexionBD conexion) {
+    public PanelResultados(IConexionBD conexion) {
         this.resultadoNegocio = new ResultadoNegocio(conexion);
         this.pruebaNegocio = new PruebaNegocio(conexion);
         initComponents();
     }
 
-    private void initComponents() {
-        setTitle("Ingreso de Resultados");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(800, 500);
-        setLocationRelativeTo(null);
+    @Override
+    public void recargar() {
+        // Empieza limpio cada vez que se entra al módulo.
+        txtFolio.setText("");
+        modeloTabla.setRowCount(0);
+        pruebaActual = null;
+    }
 
-        // Panel búsqueda por folio
+    private void initComponents() {
+        setLayout(new BorderLayout());
+
         JPanel pnlBusqueda = new JPanel(new GridLayout(1, 3, 8, 0));
         pnlBusqueda.setBorder(BorderFactory.createTitledBorder("Buscar prueba por folio"));
         txtFolio = new JTextField();
@@ -74,7 +69,6 @@ public class frmResultados extends JFrame {
         pnlBusqueda.add(txtFolio);
         pnlBusqueda.add(btnBuscar);
 
-        // Tabla de parámetros y valores
         String[] columnas = {"ID", "Parámetro", "Unidad", "Rango normal", "Valor", "Observación"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
@@ -89,7 +83,6 @@ public class frmResultados extends JFrame {
         tblResultados.getColumnModel().getColumn(COL_PARAMETRO_ID).setMaxWidth(0);
         tblResultados.getColumnModel().getColumn(COL_PARAMETRO_ID).setWidth(0);
 
-        // Botón guardar
         JButton btnGuardar = new JButton("Guardar resultados");
         btnGuardar.addActionListener(e -> guardarResultados());
 
@@ -150,7 +143,6 @@ public class frmResultados extends JFrame {
             mostrarError("Primero busque una prueba por folio.");
             return;
         }
-        // Confirmar celda activa antes de guardar
         if (tblResultados.isEditing()) {
             tblResultados.getCellEditor().stopCellEditing();
         }
