@@ -20,7 +20,7 @@ import persistencia.PersistenciaException;
  * Implementación de {@link ICatalogoNegocio}: alta y consulta de tipos de
  * muestra, análisis y parámetros.
  *
- * @author Cristian Devora
+ * @author dylannvms
  */
 public class CatalogoNegocio implements ICatalogoNegocio {
 
@@ -36,8 +36,6 @@ public class CatalogoNegocio implements ICatalogoNegocio {
 
     @Override
     public TipoMuestraEntidad registrarTipoMuestra(GuardarTipoMuestraDTO datos) throws NegocioException {
-        // FEATURE CATALOGO DE ANALISIS: deshabilitada / rota a proposito.
-        roto roto roto;
         if (datos == null || datos.getNombre() == null || datos.getNombre().isBlank()) {
             throw new NegocioException("El nombre del tipo de muestra es obligatorio.");
         }

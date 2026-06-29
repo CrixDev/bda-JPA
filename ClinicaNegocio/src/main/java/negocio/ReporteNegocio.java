@@ -21,7 +21,7 @@ import persistencia.PersistenciaException;
  * por cada resultado, determina si el valor capturado quedó fuera del rango
  * normal del parámetro, considerando la edad del cliente.
  *
- * @author Cristian Devora
+ * @author dylannvms
  */
 public class ReporteNegocio implements IReporteNegocio {
 
@@ -35,8 +35,6 @@ public class ReporteNegocio implements IReporteNegocio {
 
     @Override
     public List<ReporteResultadoDTO> generarReporte(Integer pruebaId) throws NegocioException {
-        // FEATURE EMISION DE REPORTES: deshabilitada / rota a proposito.
-        roto roto roto;
         if (pruebaId == null) {
             throw new NegocioException("Debe indicar la prueba.");
         }
@@ -90,11 +88,6 @@ public class ReporteNegocio implements IReporteNegocio {
         return reporte;
     }
 
-    /**
-     * Determina si el valor está fuera del rango normal. Solo evalúa cuando el
-     * valor es numérico, el parámetro tiene rango definido y la edad del cliente
-     * cae dentro del intervalo de edad del parámetro (si éste está definido).
-     */
     private boolean evaluarFueraDeRango(String valor, ParametroEntidad parametro, Integer edadCliente) {
         if (valor == null || valor.isBlank() || parametro == null) {
             return false;
@@ -109,7 +102,6 @@ public class ReporteNegocio implements IReporteNegocio {
             double valorNumerico = Double.parseDouble(valor.trim().replace(",", "."));
             return valorNumerico < parametro.getRangoInicial() || valorNumerico > parametro.getRangoFinal();
         } catch (NumberFormatException e) {
-            // Valor no numérico (texto): no se evalúa rango.
             return false;
         }
     }
@@ -127,10 +119,6 @@ public class ReporteNegocio implements IReporteNegocio {
         return true;
     }
 
-    /**
-     * Calcula la edad en años a partir de la fecha de nacimiento. Usa Calendar
-     * para evitar problemas con java.sql.Date.toInstant().
-     */
     private Integer calcularEdad(Date fechaNacimiento) {
         if (fechaNacimiento == null) {
             return null;
