@@ -20,7 +20,7 @@
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/clinica_salud_total?serverTimezone=UTC"/>
             <property name="javax.persistence.jdbc.user" value="root"/>
             <!-- TODO: cambiar por el password real de MySQL antes de ejecutar -->
-            <property name="javax.persistence.jdbc.password" value="TU_PASSWORD"/>
+            <property name="javax.persistence.jdbc.password" value="MySQL2025!"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 
             <property name="eclipselink.ddl-generation" value="create-tables"/>
